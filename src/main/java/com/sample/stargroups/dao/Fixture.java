@@ -1,9 +1,9 @@
 package com.sample.stargroups.dao;
 
 public class Fixture {
-    private FootballFullState footballFullState;
     private Integer fixtureId;
     private FixtureStatus fixtureStatus;
+    private FootballFullState footballFullState;
 
     public void setFootballFullState(FootballFullState footballFullState) {
         this.footballFullState = footballFullState;

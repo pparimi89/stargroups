@@ -3,19 +3,19 @@ package com.sample.stargroups.dao;
 import java.util.List;
 
 public class FootballFullState {
-    private String period;
-    private List<Teams> teams;
+    private String homeTeam;
     private String awayTeam;
     private Boolean finished;
-    private Boolean started;
-    private List<Object> redCards;
-    private List<Object> possibles;
     private Integer gameTimeInSeconds;
-    private List<Object> corners;
-    private String startDateTime;
-    private String homeTeam;
-    private List<Object> yellowCards;
     private List<Goals> goals;
+    private String period;
+    private List<Object> possibles;
+    private List<Object> corners;
+    private List<Object> redCards;
+    private List<Object> yellowCards;
+    private Boolean started;
+    private String startDateTime;
+    private List<Teams> teams;
 
     public void setPeriod(String period) {
         this.period = period;

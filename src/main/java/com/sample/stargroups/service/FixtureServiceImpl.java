@@ -2,14 +2,9 @@ package com.sample.stargroups.service;
 
 import com.sample.stargroups.config.StarGroupsConfig;
 import com.sample.stargroups.dao.Fixture;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static com.sample.stargroups.AppConstants.*;
@@ -17,9 +12,8 @@ import static com.sample.stargroups.AppConstants.*;
 public class FixtureServiceImpl {
 
     public String createFixture(final Fixture fixture){
-        final RestTemplate restTemplate = StarGroupsConfig.getRestTemplate();
         final String url = DOMAIN_URL + STORE_NEW_FIXTURE;
-        return restTemplate.postForObject(url, fixture, String.class);
+        return StarGroupsConfig.postForEntity(url, fixture);
     }
 
     public List<Fixture> getAllFixture(){
@@ -39,7 +33,8 @@ public class FixtureServiceImpl {
 
     public Fixture getFixtureById(final int id){
         final RestTemplate restTemplate = StarGroupsConfig.getRestTemplate();
-        final String url = DOMAIN_URL + GET_BY_ID;
+        String url = DOMAIN_URL + GET_BY_ID;
+        url = url.replace("{id}", Integer.toString(id));
         return restTemplate.getForObject(url, Fixture.class);
     }
 }

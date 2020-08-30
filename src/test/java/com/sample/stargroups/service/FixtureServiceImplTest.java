@@ -2,21 +2,14 @@ package com.sample.stargroups.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sample.stargroups.dao.Fixture;
-import com.sample.stargroups.dao.FootballFullState;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.util.Assert;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 class FixtureServiceImplTest {
-
-    @Test
-    public void getFixtureById() {
-        FixtureServiceImpl fixtureService = new FixtureServiceImpl();
-        Fixture fixtureById = fixtureService.getFixtureById(5);
-    }
 
     /**
      * Retrieve all fixtures.
@@ -41,28 +34,49 @@ class FixtureServiceImplTest {
     @Test
     public void testScenario2() throws IOException {
         FixtureServiceImpl fixtureService = new FixtureServiceImpl();
-        Fixture fixture = new Fixture();
-        fixture.setFixtureId(5);
-        fixture.setFixtureId(6);
-        FootballFullState footballFullState = new FootballFullState();
-        footballFullState.setHomeTeam("New Kamal Home Team");
-        footballFullState.setAwayTeam("New Kamal Away Team");
-        fixture.setFootballFullState(footballFullState);
+        Fixture fixture = getFixture("fixture_template.json");
+        fixture.setFixtureId(12);
         fixtureService.createFixture(fixture);
-
-        Fixture fixtureById = fixtureService.getFixtureById(6);
-        Assertions.assertNotNull(fixtureById);
-
-        fixtureService.deleteFixture("6");
-
-        Fixture fixtureById2 = fixtureService.getFixtureById(6);
-        Assertions.assertNull(fixtureById2);
-
+        Fixture storedFixture = fixtureService.getFixtureById(12);
+        Assertions.assertEquals("HOME", storedFixture.getFootballFullState().getTeams().get(0).getTeamId());
     }
 
-    public Fixture getFixtureTemplate() throws IOException {
+    /**
+     * To simulate latency within systems, there is an intentional, random delay to store a new fixture on the server.
+     * Bearing the delay in mind, create a new fixture and then retrieve it as soon as it's available
+     */
+    @Test
+    public void testScenario3() throws IOException {
+        FixtureServiceImpl fixtureService = new FixtureServiceImpl();
+        //Save Fixture
+        Fixture fixture = getFixture("fixture_template.json");
+        fixture.setFixtureId(13);
+        fixtureService.createFixture(fixture);
+
+        //retrieve Fixture
+        List<Fixture> allFixture = fixtureService.getAllFixture();
+        Assertions.assertTrue(allFixture.stream().anyMatch(fix -> fix.getFixtureId() == 13));
+    }
+
+    /*
+    Create and delete a new fixture.
+    Assert that the fixture no longer exists.
+     */
+    @Test
+    public void testScenario4() throws IOException {
+        FixtureServiceImpl fixtureService = new FixtureServiceImpl();
+        Fixture fixture = getFixture("fixture_template.json");
+        fixture.setFixtureId(14);
+        fixtureService.createFixture(fixture);
+        fixtureService.deleteFixture("14");
+    }
+
+
+    private Fixture getFixture(String fileName) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.readValue("/fixture_template.json", Fixture.class);
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource(fileName).getFile());
+        return objectMapper.readValue(file, Fixture.class);
     }
 
 }
