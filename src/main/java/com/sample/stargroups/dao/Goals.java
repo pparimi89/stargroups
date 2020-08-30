@@ -2,14 +2,14 @@ package com.sample.stargroups.dao;
 
 
 public class Goals {
-    private String period;
-    private Boolean penalty;
-    private Integer teamId;
-    private Integer id;
-    private Boolean confirmed;
-    private Boolean ownGoal;
     private Integer clockTime;
+    private Boolean confirmed;
+    private Integer id;
+    private Boolean ownGoal;
+    private Boolean penalty;
+    private String period;
     private Integer playerId;
+    private Integer teamId;
 
     public void setPeriod(String period) {
         this.period = period;
