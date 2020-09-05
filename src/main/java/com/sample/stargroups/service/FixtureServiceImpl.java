@@ -31,10 +31,10 @@ public class FixtureServiceImpl {
         restTemplate.delete(url);
     }
 
-    public Fixture getFixtureById(final int id){
+    public Fixture getFixtureById(final String id){
         final RestTemplate restTemplate = StarGroupsConfig.getRestTemplate();
         String url = DOMAIN_URL + GET_BY_ID;
-        url = url.replace("{id}", Integer.toString(id));
+        url = url.replace("{id}", id);
         return restTemplate.getForObject(url, Fixture.class);
     }
 }

@@ -1,7 +1,7 @@
 package com.sample.stargroups.dao;
 
 public class Fixture {
-    private Integer fixtureId;
+    private String fixtureId;
     private FixtureStatus fixtureStatus;
     private FootballFullState footballFullState;
 
@@ -13,12 +13,12 @@ public class Fixture {
         return footballFullState;
     }
 
-    public void setFixtureId(Integer fixtureId) {
-        this.fixtureId = fixtureId;
+    public String getFixtureId() {
+        return fixtureId;
     }
 
-    public Integer getFixtureId() {
-        return fixtureId;
+    public void setFixtureId(String fixtureId) {
+        this.fixtureId = fixtureId;
     }
 
     public void setFixtureStatus(FixtureStatus fixtureStatus) {
